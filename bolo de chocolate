@@ -1,0 +1,17 @@
+programa {
+ funcao inicio() 
+  {
+    escreva("1 - Pegue os Ingredientes e a forma")
+   escreva("2 - se o forno estiver ligado")
+   escreva("3 - pre aqueça o forno")
+   escreva("4 - se a forma estiver untada senao passo5")
+   escreva("5 - untar a forma")
+   escreva("6 - mistura os ingredientes")
+   escreva("7 - colocar ingredientes na forma")
+   escreva("8 - colocar a forma no forno")
+   escreva("9 - se amassar não grudar passo 1 senão passo 10")
+   escreva("10 - deixar no forno por mais 10 min e repetir o passo 9")
+   escreva("11 - retirar o bolo do forno")
+   escreva("12 - desinformar o bolo")
+  }
+}
