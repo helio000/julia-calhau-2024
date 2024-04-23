@@ -1,0 +1,142 @@
+HTML
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo e Estimativa de Despesa</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cálculo e Estimativa de Despesa</h1>
+        <form id="despesa-form">
+            <label for="nome-despesa">Nome da Despesa:</label>
+            <input type="text" id="nome-despesa" required>
+            <label for="valor-despesa">Valor da Despesa (R$):</label>
+            <input type="number" id="valor-despesa" min="0" step="0.01" required>
+            <button type="submit">Adicionar Despesa</button>
+        </form>
+        <div id="despesas"></div>
+        <div id="total-media"></div>
+        <button id="estimativa-btn">Estimativa de Gastos Anual</button>
+        <div id="estimativa"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+CSS
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+h1 {
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#despesas {
+    margin-top: 20px;
+}
+
+#total-media {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+#estimativa {
+    margin-top: 20px;
+}
+
+JavaScript 
+
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('despesa-form');
+    const despesasDiv = document.getElementById('despesas');
+    const totalMediaDiv = document.getElementById('total-media');
+    const estimativaBtn = document.getElementById('estimativa-btn');
+    const estimativaDiv = document.getElementById('estimativa');
+
+    let despesas = [];
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const nomeDespesa = document.getElementById('nome-despesa').value;
+        const valorDespesa = parseFloat(document.getElementById('valor-despesa').value);
+
+        if (nomeDespesa && !isNaN(valorDespesa)) {
+            despesas.push({ nome: nomeDespesa, valor: valorDespesa });
+            renderDespesas();
+            calcularTotalMedia();
+        }
+
+        form.reset();
+    });
+
+    estimativaBtn.addEventListener('click', function() {
+        calcularEstimativaAnual();
+    });
+
+    function renderDespesas() {
+        despesasDiv.innerHTML = '';
+        despesas.forEach(function(despesa) {
+            const despesaItem = document.createElement('div');
+            despesaItem.textContent = `${despesa.nome}: R$ ${despesa.valor.toFixed(2)}`;
+            despesasDiv.appendChild(despesaItem);
+        });
+    }
+
+    function calcularTotalMedia() {
+        const total = despesas.reduce((acc, despesa) => acc + despesa.valor, 0);
+        const media = total / despesas.length || 0;
+
+        totalMediaDiv.textContent = `Total: R$ ${total.toFixed(2)} | Média: R$ ${media.toFixed(2)}`;
+    }
+
+    function calcularEstimativaAnual() {
+        const total = despesas.reduce((acc, despesa) => acc + despesa.valor, 0);
+        const estimativa = total * 12;
+
+        estimativaDiv.textContent = `Estimativa de Gastos Anual: R$ ${estimativa.toFixed(2)}`;
+    }
+});
+
